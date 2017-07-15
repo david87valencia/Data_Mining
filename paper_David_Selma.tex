@@ -1,0 +1,142 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{acl2015}
+\usepackage{times}
+\usepackage{url}
+\usepackage{latexsym}
+
+
+\title{Data Mining en Social Media. M\'aster Big Data Analytics.}
+
+\author{David Selma Herrero \\
+  {\tt daselher@masters.upv.es} \\}
+
+\date{}
+
+
+
+\begin{document}
+\maketitle
+\begin{abstract}
+  El reto que se nos plantea es predecir a que genero (hombre, mujer) o variedad (pa\'is) pertenecen los tweets. Para ello se nos facilitan dos carpetas, una para training y otra para test. En estas dos carpetas tenemos un fichero donde podemos identificar el autor (nombre del fichero XML), genero (si es hombre o mujer), y su variedad etiquetadas. Este fichero se llama "truth.txt". Y por ultimo el resto de ficheros XML, un fichero XML por autor.
+  
+  Para ello se realizan una serie de puntos en el siguiente orden:
+  \begin{itemize}
+  \item Entender los datos que manejamos y el problema al que nos enfrentamos.
+  \item Estudio de la limpieza de datos, ya que dependiendo de que se limpie podemos mejorar o empeorar los resultados.
+  \item Estudio y elaboraci\'on del algoritmo.
+  \item Estudio de los modelos a aplicar a nuestro caso en particular.
+  \item Uno de los par\'ametros a fijarnos principalmente: Accuracy y kappa.
+  \end{itemize}
+  
+  Por ultimo, se han realizado diferentes pruebas con los diferentes modelos para obtener el mejor resultado en un tiempo razonable.
+  
+\end{abstract}
+
+
+\section{Introducci\'on}
+
+El objetivo de este problema es superar la predicci\'on base de genero y variedad.
+  \begin{itemize}
+  \item Genero: 66'43 \%
+  \item Variedad: 77'21 \%
+  \end{itemize}
+  
+  Se nos proporcionara un dataset para realizar una mejor predicci\'on. Y para ello habr\'a que superar dichos par\'ametros.
+  
+\section{Dataset}
+
+  Se nos proporcionan un dataset ya separado en training y test, en dos carpetas diferentes. Cada uno de ellos contiene ficheros XML, uno por cada autor. Y un fichero llamado "truth.txt" donde tendr\'a nombre del autor, genero y variedad.
+
+  La carpeta de training contiene un total de 2800 autores y la carpeta de test tiene un total de 1400 autores. Es decir, un 66'66 \% de training y un 33'34 \% de test.
+
+  Cada autor tiene 100 tweets.
+
+  Por una parte la carpeta de training contiene 1400 autores de genero masculino y 1400 autores de genero femenino. Por otra parte la carpeta de test contiene 700 autores de genero masculino y 700 autores de genero femenino.
+
+  Se puede observar que este dataset de training esta compuesto por 400 autores de cada uno de los pa\'ises que tiene llamados Colombia, Argentina, Spain, Venezuela, Peru, Chile y Mexico. Tambi\'en el dataset de test tiene 200 autores de cada uno de los pa\'ises citados anteriormente.
+
+\section{Propuesta del alumno}
+
+  Para tener una predicci\'on mas exacta y precisa se propone primero una limpieza de datos y adaptaci\'on de la informaci\'on para este problema en los siguientes puntos:
+  \begin{itemize}
+  \item Transformar las palabras a min\'usculas (tolower).
+  \item Eliminaci\'on de signos de puntuaci\'on (removePunctuation).
+  \item Eliminaci\'on de n\'umeros (removeNumbers).
+  \item Eliminaci\'on de palabras stopwords (removeWords de swlist = "es").
+  \item Eliminaci\'on de preposiciones (removeWords).
+  \item Eliminaci\'on de espacios en blanco extra. Varios caracteres de espacio en blanco se contraen a un solo espacio en blanco (stripWhitespace).
+  \end{itemize}
+
+Se realiza una bolsa de palabras adecuada para variedad y genero.
+
+  Una vez se finalice la limpieza adecuada y elaborado el algoritmo que se considera que obtendr\'a una mayor precisi\'on en la predicci\'on. Se procede a aplicar los siguiente modelos que hemos considerado apropiados para este caso:
+  \begin{itemize}
+  \item Redes Neuronales
+  \item Naive Bayes
+  \item Random Forest
+  \end{itemize}
+
+En principio se entreno el modelo con una
+m\'aquina de soporte de vectores con diferentes par\'ametros pero no hubo la mejora que se esperaba para la resolución de este problema.
+
+De modo alternativo, cuando se probo con los modelos Redes Neuronales, Navive Bayes y Random Forest. Se observa que Random Forest daba mejores predicciones al incrementar el n\'umero de \'arboles a 100.
+
+Para este problema se ha tenido en cuenta que no se este haciendo sobreajuste.
+
+Por otra parte nos fijamos en Accuracy y en el Kappa. El Kappa es importante que este lo mas cercano a 0, ya que si no es asi significa que el resultado es altamente probable debido al azar.
+
+
+\section{Resultados experimentales}
+
+Los resultados experimentales obtenidos tras la realizaci\'on de este problema en las
+predicciones de género y variedad son:
+  \begin{itemize}
+  \item Genero: 72'21 \%
+  \item Variedad: 88'71 \%
+  \end{itemize}
+
+Estos resultados se obtienen al aplicar Random Forest con una configuraci\'on de 100 arboles. El c\'alculo se ha realizado dentro de un tiempo razonable y esperado.
+
+Por falta de tiempo se procedi\'o a ejecutar Random Forest con diferentes arboles y esto llevo todo el d\'ia dando peores resultados a los anteriormente.
+
+
+\section{Conclusiones y trabajo futuro}
+
+
+  \begin{itemize}
+  \item Conclusiones:
+  Los resultados obtenidos han mejorado con respecto a la predicci\'on base dada inicialmente. La precisión de género ha mejorado en un 9'40 \% y la de variedad un 15'20 \%.
+  
+
+  \item Trabajo futuro:
+  
+  
+    \begin{itemize}
+    \item Realizaci\'on de la bolsa de vocabulario con las palabras mas utilizadas en cada uno de los pa\'ises, es decir, palabras propias de cada pa\'is o genero. Pudiendo as\'i identificar a que variedad pertenece. O en el caso del genero las palabras mas utilizadas por el genero femenino y tambi\'en las palabras mas utilizadas por el genero masculino.
+    
+    \item Longitud de las palabras ya que se piensa que un determinado genero o variedad escribe con mayor longitud los tweets.
+    
+    
+    \item Sacar la ra\'iz o lexema de las palabras para predecir a que variedad pertenecen los tweets.
+    
+    
+    \item Quitar la ra\'iz y quedarnos con las ultimas letras de las palabras para predecir a que genero pertenecen los tweets.    
+    
+    \item Leer tweets en grupos de dos o mas palabras detectar patrones que se puedan obtener en determinado genero o variedad.
+    
+    
+    \item Dar peso a determinadas palabras. Esta idea viene porque se piensa que aquellas palabras mas frecuentes o propias de un determinado genero o variedad tiene que tener mas importancia y mayor impacto en la predicci\'on con respecto a aquellas palabras que son comunes en los dos g\'eneros o que est\'en en diferentes variedades. Las palabras comunes en ambos g\'eneros y diferentes variedades tendr\'ian que tener menor peso por su poca importancia en la predicci\'on.
+    
+    \end{itemize}
+  
+  \end{itemize}
+
+
+\section{Referencias}
+
+\url{http://topepo.github.io/caret/index.html}
+
+\url{https://topepo.github.io/caret/available-models.html}
+
+
+\end{document}
